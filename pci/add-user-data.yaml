@@ -1,16 +1,16 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: add-labels
+  name: add-annotations
   annotations:
-    policies.kyverno.io/title: Add User Labels 
+    policies.kyverno.io/title: Add User Data 
     policies.kyverno.io/category: PCI
     policies.kyverno.io/description: >-
-      Add the username as a label to namespaces and workloads.    
+      Add the username as an annotation for namespaces and workloads.    
 spec:
   background: false
   rules:
-  - name: add-user-labels
+  - name: add-user-data
     match:
       resources:
         kinds:
@@ -19,6 +19,6 @@ spec:
     mutate:
       overlay:
         metadata:
-          labels:
+          annotations:
             kyverno.io/createdBy: "{{request.userInfo.username}}"
 
