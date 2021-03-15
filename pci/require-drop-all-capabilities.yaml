@@ -1,7 +1,7 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: drop-all-capabilities
+  name: pci-drop-all-capabilities
   annotations:
     policies.kyverno.io/category: Best Practices
     policies.kyverno.io/description: >-
