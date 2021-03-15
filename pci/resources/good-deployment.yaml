@@ -1,0 +1,36 @@
+---
+kind: "Deployment"
+apiVersion: "apps/v1"
+metadata:
+  name: pause
+  labels:
+    app.kubernetes.io/name: pause
+    app.kubernetes.io/instance: pause
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pause
+      app.kubernetes.io/instance: "pause"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: pause
+        app.kubernetes.io/instance: pause
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000    
+      containers:
+      - name: pause
+        image: kubernetes/pause
+        securityContext:
+          capabilities:
+            drop: ["ALL"]
+        resources:
+          requests:
+            memory: 100Mi
+            cpu: 50m
+          limits:
+            memory: 100Mi
+            cpu: 200m          

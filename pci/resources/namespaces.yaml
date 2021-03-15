@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pci-test
+  labels:
+    data-classification: PCI
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: non-pci-test
+  labels:
+    data-classification: OTHER

@@ -1,0 +1,23 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-namespace-labels
+  annotations:
+    policies.kyverno.io/title: Require Namespace Labels 
+    policies.kyverno.io/category: PCI
+    policies.kyverno.io/description: >-
+      Namespaces must be labelled.  
+spec:
+  validationFailureAction: enforce
+  rules:
+  - name: check-for-labels
+    match:
+      resources:
+        kinds:
+        - Namespace
+    validate:
+      message: "label `data-classification` with values PCI or OTHER is required"
+      pattern:
+        metadata:
+          labels:
+            data-classification: "PCI | OTHER"

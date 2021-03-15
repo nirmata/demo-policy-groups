@@ -1,0 +1,26 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-node-selector
+  annotations:
+    policies.kyverno.io/title: Add Node Selector
+    policies.kyverno.io/category: PCI
+    policies.kyverno.io/description: >-
+      PCI workloads must run on secure nodes.    
+spec:
+  background: false
+  rules:
+  - name: add-node-selector
+    match:  
+      resources:
+        kinds:
+        - Pod
+        namespaceSelector:
+          matchLabels:
+            data-classification: "PCI"
+    mutate:
+      patchStrategicMerge:
+        spec:
+          nodeSelector:
+            storage: encrypted-ssd
+

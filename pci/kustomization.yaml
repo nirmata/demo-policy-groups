@@ -1,0 +1,7 @@
+resources:
+- require-namespace-labels.yaml
+- add-user-labels.yaml
+- disallow-default-namespace.yaml
+- add-node-selector.yaml
+- require-drop-all-capabilities.yaml
+

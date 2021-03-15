@@ -1,2 +1,5 @@
-# demo-policy-groups
-Kyverno Policy Groups for use in demos
+# Demo Policy Groups
+
+This repository contains Kyverno Policy Groups used for demonstration and test purposes
+
+* [PCI policy group](/pci)
