@@ -1,0 +1,67 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-hpa
+  annotations:
+    policies.kyverno.io/description: >-
+      add HPA for a deployment based on the Namespace type
+spec:
+  rules:
+  - name: medium
+    match:
+      resources:
+        kinds:
+        - Deployment
+        namespaceSelector:
+          matchLabels:
+            type: medium
+    generate:
+      apiVersion: autoscaling/v2
+      kind: HorizontalPodAutoscaler
+      name: "{{request.object.metadata.name}}"
+      synchronize: true
+      namespace: "{{request.object.metadata.namespace}}"
+      data:
+        spec:
+          scaleTargetRef:
+            apiVersion: apps/v1
+            kind: Deployment
+            name: "{{request.object.metadata.name}}"
+          minReplicas: 1
+          maxReplicas: 2
+          metrics:
+          - type: Resource
+            resource:
+              name: cpu
+              target:
+                type: Utilization
+                averageUtilization: 80
+  - name: large
+    match:
+      resources:
+        kinds:
+        - Deployment
+        namespaceSelector:
+          matchLabels:
+            type: large
+    generate:
+      apiVersion: autoscaling/v2
+      kind: HorizontalPodAutoscaler
+      name: "{{request.object.metadata.name}}"
+      synchronize: true
+      namespace: "{{request.object.metadata.namespace}}"
+      data:
+        spec:
+          scaleTargetRef:
+            apiVersion: apps/v1
+            kind: Deployment
+            name: "{{request.object.metadata.name}}"
+          minReplicas: 1
+          maxReplicas: 10
+          metrics:
+          - type: Resource
+            resource:
+              name: cpu
+              target:
+                type: Utilization
+                averageUtilization: 50

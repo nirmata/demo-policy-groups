@@ -1,0 +1,37 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-nodeselector
+  annotations:
+    policies.kyverno.io/description: >- 
+      inject a nodeSelector based on the namespace type
+spec:
+  rules:
+  - name: medium
+    match:
+      resources:
+        kinds:
+        - Pod
+        namespaceSelector:
+          matchLabels:
+            type: medium 
+    mutate:
+      patchStrategicMerge:
+        spec:
+          nodeSelector:
+            kubernetes.io/arch: amd64
+            karpenter.sh/capacity-type: spot
+  - name: large
+    match:
+      resources:
+        kinds:
+        - Pod
+        namespaceSelector:
+          matchLabels:
+            type: large
+    mutate:
+      patchStrategicMerge:
+        spec:
+          nodeSelector:
+            kubernetes.io/arch: amd64
+            karpenter.sh/capacity-type: on-demand

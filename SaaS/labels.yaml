@@ -1,0 +1,27 @@
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-ns-labels
+  annotations:
+    policies.kyverno.io/description: >-
+      check for namespace labels
+spec:
+  validationFailureAction: enforce
+  background: false
+  rules:
+    - name: check-ns
+      match:
+        resources:
+          kinds:
+            - Namespace
+      # exclude:
+      #   clusterRoles:
+      #     - "cluster-admin"
+      validate:
+        message: >-
+          The namespace must have a label "type" with a value "small | medium | large"
+        pattern:
+          metadata:
+            labels:
+              type: "small | medium | large"
