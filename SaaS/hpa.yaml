@@ -16,7 +16,7 @@ spec:
           matchLabels:
             type: medium
     generate:
-      apiVersion: autoscaling/v2
+      apiVersion: autoscaling/v1
       kind: HorizontalPodAutoscaler
       name: "{{request.object.metadata.name}}"
       synchronize: true
@@ -45,7 +45,7 @@ spec:
           matchLabels:
             type: large
     generate:
-      apiVersion: autoscaling/v2
+      apiVersion: autoscaling/v1
       kind: HorizontalPodAutoscaler
       name: "{{request.object.metadata.name}}"
       synchronize: true
