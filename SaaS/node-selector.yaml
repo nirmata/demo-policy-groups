@@ -4,31 +4,31 @@ metadata:
   name: add-nodeselector
   annotations:
     policies.kyverno.io/description: >- 
-      inject a nodeSelector based on the namespace type
+      inject a nodeSelector based on the namespace role
 spec:
   rules:
-  - name: medium
+  - name: spot
     match:
       resources:
         kinds:
         - Pod
         namespaceSelector:
           matchLabels:
-            type: medium 
+            role: devtest
     mutate:
       patchStrategicMerge:
         spec:
           nodeSelector:
             kubernetes.io/arch: amd64
             karpenter.sh/capacity-type: spot
-  - name: large
+  - name: on-demand
     match:
       resources:
         kinds:
         - Pod
         namespaceSelector:
           matchLabels:
-            type: large
+            role: prod
     mutate:
       patchStrategicMerge:
         spec:

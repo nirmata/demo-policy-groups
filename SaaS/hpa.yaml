@@ -15,6 +15,7 @@ spec:
         namespaceSelector:
           matchLabels:
             type: medium
+            hpa: true
     generate:
       apiVersion: autoscaling/v1
       kind: HorizontalPodAutoscaler
@@ -44,6 +45,7 @@ spec:
         namespaceSelector:
           matchLabels:
             type: large
+            hpa: true
     generate:
       apiVersion: autoscaling/v1
       kind: HorizontalPodAutoscaler
